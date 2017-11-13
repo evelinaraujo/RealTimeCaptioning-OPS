@@ -1,0 +1,6 @@
+variables.tf
+variables.json
+*.terraform
+*.retry
+*.tfstate
+*.tfstate.backup

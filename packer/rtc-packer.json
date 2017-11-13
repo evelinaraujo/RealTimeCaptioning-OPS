@@ -1,0 +1,28 @@
+{
+
+"provisioners": [
+  {
+	"type": "shell",
+	"execute_command": "sudo -S bash '{{.Path}}'",
+	"script": "rtc-provision.sh"
+
+}
+],
+
+"builders": [
+{
+	"type": "amazon-ebs",
+	"communicator": "ssh",
+	"region": "us-west-2",
+	"source_ami": "{{ user `ami` }}",
+	"instance_type": "t2.micro",
+	"name": "rtc",
+	"ami_name": "rtc-ami",
+	"ami_description": "Base ubuntu 16.04 AMI with MEAN stack installed, angular cli, npm, node, nvm, git",
+	"subnet_id": "{{user `subnet_id`}}",
+	"vpc_id": "{{ user `vpc_id` }}",
+	"ssh_username": "ubuntu",
+	"associate_public_ip_address": "true"
+}
+]
+}
