@@ -2,51 +2,36 @@
 
 ### AWS Provider #
 provider "aws" {
-  region = "us-west-2"
+  region = "var.region"
 }
 
-### Security Group for Instance ###
-resource "aws_security_group" "demo_security_group" {
-  tags {
-    Name = "${var.sg_name}"
-    env  = "${var.sg_env}"
-  }
+resource "aws_instance" "webserver-b" {
+    ami = "${var.ami}"
+    instance_type = "t2.micro"
+    vpc_security_group_ids = ["${var.demo_security_group}"]
+    subnet_id = "${aws_subnet.private_subnet_us_west_2b.id}"
+    associate_public_ip_address = false
+    key_name = "rtc"
 
-  name        = "${var.sg_name}"
-  description = "${var.sg_description}"
-  vpc_id      = "${var.vpc_id}"
+    tags {
+        Name = "webserver-b"
+        Service = "curriculum"
+    }
 }
 
-ingress {
-	from_port = 80
-  to_port = 80
-  protocol = "tcp"
-  cidr_blocks = ["${var.cidr_block_open}"]
-}
+resource "aws_instance" "webserver-c" {
+    ami = "ami-5ec1673e"
+    instance_type = "t2.micro"
+    vpc_security_group_ids = ["${aws_security_group.web_server_security.id}"]
+    subnet_id = "${aws_subnet.private_subnet_us_west_2c.id}"
+    associate_public_ip_address = false
+    key_name = "cit360"
 
-ingress {
-  from_port = 22
-  to_port = 22
-  protocol = "tcp"
-  cidr_blocks = ["${var.cidr_block_internal}"]
+    tags {
+        Name = "webserver-c"
+        Service = "curriculum"
+    }
 }
-
-ingress {
-  from_port = 443
-  to_port = 443
-  protocol = "tcp"
-  cidr_blocks = ["${var.cidr_block_open}"]
-}
-
-egress {
-  from_port = 0
-  to_port = 0
-  protocol = "-1"
-  cidr_blocks = ["${var.cidr_block_open}"]
-}
-
-### Security Group for Load Balancer ###
-resource "aws_security_group" "sg_load_balancer"
 
 
 
