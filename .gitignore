@@ -1,5 +1,3 @@
-variables.tf
-variables.json
 *.terraform
 *.retry
 *.tfstate
