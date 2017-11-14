@@ -41,18 +41,6 @@ echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" 
 echo "Reload local package database"
 sudo apt-get update
 
-echo "Install version of mongodb"
-sudo apt-get install -y mongodb-org
-sudo apt-get install -y mongodb 
-
-echo "create /data/db directory"
-
-sudo mkdir /data
-cd /data
-sudo mkdir db
-sudo chown -R `id -un` /data/db
-cd ~
-
 echo "Clone the repo"
 git clone https://github.com/CSUN-Comp490/RealTimeCaptioning.git
 
@@ -81,6 +69,19 @@ echo "Run npm install inside the backend directory"
 cd backend
 npm install
 node indexjs
+
+echo "Install version of mongodb"
+sudo apt-get install -y mongodb-org
+sudo apt-get install -y mongodb 
+
+echo "create /data/db directory"
+
+sudo mkdir /data
+cd /data
+sudo mkdir db
+sudo chown -R `id -un` /data/db
+cd ~
+
 
 echo "Start mongodb"
 cd /data && sudo mongod
