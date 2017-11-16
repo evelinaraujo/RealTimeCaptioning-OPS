@@ -1,0 +1,35 @@
+---
+- hosts: all
+  remote_user: ansible
+  tasks:
+  - name: Install build-essentials
+    become: true
+    apt: name={{ item }} state=installed
+    with_items:
+      - build-essential
+      - libssl-dev
+  
+  - name: Install nvm
+    become: true
+    shell: >
+          curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sh
+  
+  - name: Install node
+    become: true
+    shell: >
+      /bin/bash -c "source ~/.nvm/nvm.sh && nvm install 7.4.0"
+  
+  - name: Create symlink for npm
+    become: true
+    file:
+      src: /root/.nvm/versions/node/v7.4.0/bin/npm
+      dest: /usr/bin/npm
+      state: link
+  
+  - name: Create symlink for node
+    become: true
+    file:
+      src: /root/.nvm/versions/node/v7.4.0/bin/node
+      dest: /usr/bin/node
+      state: link
+

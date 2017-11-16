@@ -1,14 +1,17 @@
 {
-
-"provisioners": [
-  {
-	"type": "shell",
-	"execute_command": "sudo -S bash '{{.Path}}'",
-	"script": "rtc-provision.sh"
-
+"provisioners":
+  [
+   {
+    "type": "shell",
+    "execute_command": "sudo -S bash '{{.Path}}'",
+    "script": "rtc-provision.sh"
+},
+    {
+    "type": "ansible",
+    "playbook_file": "../ansible-node/node.yml"
 }
-],
 
+],
 "builders": [
 {
 	"type": "amazon-ebs",
