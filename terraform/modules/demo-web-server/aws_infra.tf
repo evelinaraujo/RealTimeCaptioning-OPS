@@ -2,48 +2,68 @@
 
 ### AWS Provider #
 provider "aws" {
-  region = "var.region"
+  region = "${var.region}"
 }
 
-resource "aws_instance" "webserver-b" {
-    ami = "${var.ami}"
-    instance_type = "t2.micro"
-    vpc_security_group_ids = ["${var.demo_security_group}"]
-    subnet_id = "${aws_subnet.private_subnet_us_west_2b.id}"
-    associate_public_ip_address = false
-    key_name = "rtc"
+resource "aws_instance" "web-demo" {
+  ami                    = "${var.ami}"
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = ["${var.demo_security_group_id}"]
+  subnet_id              = "${var.private-subnet-2b}"
 
-    tags {
-        Name = "webserver-b"
-        Service = "curriculum"
-    }
+  #Do I need to associate a public ip address?
+  associate_public_ip_address = false
+  key_name                    = "rtc"
+
+  tags {
+    Name = "web-demo"
+  }
 }
 
-resource "aws_instance" "webserver-c" {
-    ami = "ami-5ec1673e"
-    instance_type = "t2.micro"
-    vpc_security_group_ids = ["${aws_security_group.web_server_security.id}"]
-    subnet_id = "${aws_subnet.private_subnet_us_west_2c.id}"
-    associate_public_ip_address = false
-    key_name = "cit360"
+resource "aws_instance" "web-demo-1" {
+  ami                    = "${var.ami}"
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = ["${var.demo_security_group_id}"]
+  subnet_id              = "${var.private-subnet-2c}"
 
-    tags {
-        Name = "webserver-c"
-        Service = "curriculum"
-    }
+  #Do I need to associate a public ip address?
+  associate_public_ip_address = false
+  key_name                    = "rtc"
+
+  tags {
+    Name = "web-demo-1"
+  }
 }
 
+##Variables - Instance
+variable "region" {
+  description = "AWS Region"
+  default     = "us-west-2"
+}
 
+variable "instance_name" {
+  description = "Name of the Instance"
+  default     = "rtc-demo"
+}
 
+variable "vpc_id" {
+  default = "vpc-d4ae8db2"
+}
 
+variable "demo_security_group_id" {
+  default = "sg-df6273a2"
+}
 
+variable "ami" {
+  # should be an ami from packer
+  # for now it is default 
+  default = "ami-6e1a0117"
+}
 
+variable "private-subnet-2b" {
+  default = "subnet-9684e8de"
+}
 
-
-
-
-
-
-
-
-
+variable "private-subnet-2c" {
+  default = "subnet-4149441a"
+}

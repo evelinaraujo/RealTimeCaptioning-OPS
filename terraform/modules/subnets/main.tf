@@ -2,14 +2,13 @@
 provider "aws" {
   region = "${var.region}"
 }
- 
-  #Subnets
 
-  ##3 public subnets. 
+#Subnets
 
-  #A public subnet uses an Internet Gateway in its routing table for the default route.
+##3 public subnets. 
+
+#A public subnet uses an Internet Gateway in its routing table for the default route.
 resource "aws_subnet" "public_subnet_us_west_2a" {
-
   vpc_id                  = "${var.vpc_id}"
   cidr_block              = "172.31.1.0/24"
   map_public_ip_on_launch = true
@@ -94,7 +93,6 @@ output "public_subnet_us_west_2a" {
 output "public_subnet_us_west_2b" {
   value = "${aws_subnet.public_subnet_us_west_2b.id}"
 }
-
 
 output "public_subnet_us_west_2c" {
   value = "${aws_subnet.public_subnet_us_west_2c.id}"

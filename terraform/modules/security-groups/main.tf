@@ -25,7 +25,6 @@ resource "aws_security_group" "lb_security_group" {
   }
 }
 
-
 ### Security Group that allows SSH to Bastion host
 
 resource "aws_security_group" "allow_ssh_bastion" {
@@ -48,6 +47,39 @@ resource "aws_security_group" "allow_ssh_bastion" {
   }
 }
 
+#### Security Group for Instances web-demo and web-demo-1
+#Security Group for Instance
+resource "aws_security_group" "web-demo-sg" {
+  vpc_id = "${var.vpc_id}"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["${var.cidr_block_aws}"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["${var.cidr_block_open}"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["${var.cidr_block_open}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["${var.cidr_block_open}"]
+  }
+}
 
 ### Variables ###
 
@@ -71,4 +103,12 @@ variable "cidr_block_eduroam" {
   default = "172.28.0.0/16"
 }
 
+variable "cidr_block_open" {
+  default = "0.0.0.0/0"
+}
 
+##### Outputs
+
+output "Web server security group" {
+  value = "${aws_security_group.web-demo-sg.id}"
+}

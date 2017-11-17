@@ -3,13 +3,11 @@ provider "aws" {
   region = "${var.region}"
 }
 
-
 ## Elastic IP address for the NAT gateway
 resource "aws_eip" "rtc_eip" {
   vpc        = true
   depends_on = ["aws_internet_gateway.gateway"]
 }
-
 
 ##Internet Gateway
 ##Internet Gateway placed in public route table for public subnets.
@@ -31,7 +29,6 @@ resource "aws_nat_gateway" "nat_gateway" {
   depends_on    = ["aws_internet_gateway.gateway"]
 }
 
-
 ### Variables ###
 
 variable "vpc_id" {
@@ -39,7 +36,7 @@ variable "vpc_id" {
 }
 
 variable "public_subnet_us_west_2a" {
-	default = "subnet-50d09c36" 
+  default = "subnet-50d09c36"
 }
 
 variable "region" {
@@ -53,5 +50,5 @@ output "Elastic_ip" {
 }
 
 output "Internet Gateway" {
-	value = "${aws_internet_gateway.gateway.id}"
+  value = "${aws_internet_gateway.gateway.id}"
 }
