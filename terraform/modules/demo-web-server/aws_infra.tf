@@ -57,7 +57,8 @@ variable "demo_security_group_id" {
 variable "ami" {
   # should be an ami from packer
   # for now it is default 
-  default = "ami-6e1a0117"
+  default = "ami-316eb049"
+  #ami-0a00ce72
 }
 
 variable "private-subnet-2b" {
