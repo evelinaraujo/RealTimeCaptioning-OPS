@@ -19,10 +19,10 @@ resource "aws_s3_bucket" "s3-logs" {
       "Sid": "AllowLBLogsAccess",
       "Effect": "Allow",
       "Principal": {
-        "AWS": "${var.user}"
+        "AWS": "arn:aws:iam::797873946194:root"
       },
       "Action": "s3:PutObject",
-      "Resource": "arn:aws:s3:::${var.elb-name}-logs/AWSLogs/*"
+      "Resource": "arn:aws:s3:::${var.elb-name}-logs/AWSLogs/636693391160/*"
     }
   ]
 }
@@ -37,7 +37,8 @@ POLICY
 resource "aws_elb" "elb" {
   name            = "${var.elb-name}"
   security_groups = ["${var.lb_security_group}"]
-  subnets         = ["${var.public_subnet_a}"]
+  subnets         = ["${var.public_subnets}"]
+  depends_on      = ["aws_s3_bucket.s3-logs"]
 
   listener {
     instance_port     = 80
@@ -54,6 +55,10 @@ resource "aws_elb" "elb" {
     ssl_certificate_id = "${var.rtc-certificate}"
   }
 
+  access_logs {
+    bucket = "${aws_s3_bucket.s3-logs.id}"
+  }
+
   health_check {
     healthy_threshold   = "${var.healthy-threshold}"
     unhealthy_threshold = "${var.unhealthy-threshold}"
@@ -65,10 +70,15 @@ resource "aws_elb" "elb" {
   connection_draining         = "${var.connection-draining}"
   connection_draining_timeout = "${var.connection-draining-timeout}"
   instances                   = ["${var.instances}"]
+
+  tags {
+    name = "${var.elb-name}"
+    env  = "${var.env}"
+  }
 }
 
 #### variables
-variable "region " {
+variable "region" {
   default = "us-west-2"
 }
 
@@ -76,54 +86,56 @@ variable "elb-name" {
   description = "name of the load balancer"
 }
 
-variable "lb_security_group " {
+variable "lb_security_group" {
   description = "security group for the load balancer"
 }
 
-variable "public_subnet_a " {
-  description = "id for public subnet a"
+variable "env" {
+  description = "environment: demo, stage, prod, test"
 }
 
-variable "rtc-certificate " {
+variable "public_subnets" {
+  description = "id for public subnets"
+  type        = "list"
+}
+
+variable "rtc-certificate" {
   default = "arn:aws:acm:us-west-2:636693391160:certificate/c4fbf184-91e0-4a46-8a63-a907f806aa88"
 }
 
-variable "instances " {
+variable "instances" {
   description = "list of instances behind the load balancer"
   type        = "list"
 }
 
-variable "healthy-threshold " {
+variable "healthy-threshold" {
   default = "10"
 }
 
-variable "unhealthy-threshold " {
+variable "unhealthy-threshold" {
   default = "2"
 }
 
-variable "health-target " {
+variable "health-target" {
   default = "HTTP:80/"
 }
 
-variable "health-interval " {
-  default = "30"
+variable "health-interval" {
+  default = "10"
 }
 
-variable "health-timeout " {
-  default = "5"
+variable "health-timeout" {
+  default = "2"
 }
 
-variable "connection-draining " {
+variable "connection-draining" {
   default = "true"
 }
 
-variable "connection-draining-timeout " {
+variable "connection-draining-timeout" {
   default = "300"
 }
 
-variable "user" {
-  description = "arn of user"
-}
 
 variable "s3-acl" {
   description = "public or private accessibility"

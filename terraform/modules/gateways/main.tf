@@ -54,6 +54,6 @@ output "Internet-Gateway-id" {
   value = "${aws_internet_gateway.gateway.id}"
 }
 
-output "Nat-Gateway-id"{
-value = "${aws_nat_gateway.nat_gateway.id}"
+output "Nat-Gateway-id" {
+  value = "${aws_nat_gateway.nat_gateway.id}"
 }

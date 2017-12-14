@@ -17,6 +17,13 @@ resource "aws_security_group" "lb_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 27017
+    to_port     = 27017
+    protocol    = "tcp"
+    cidr_blocks = ["${var.cidr_block_open}"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -31,4 +38,13 @@ variable "vpc_id" {
 
 variable "region" {
   description = "Region for security group"
+}
+
+output "lb-sg-id" {
+ value = "${aws_security_group.lb_security_group.id}"
+}
+
+variable "cidr_block_open"{
+    description = "open cidr notation"
+  default     = "0.0.0.0/0"
 }

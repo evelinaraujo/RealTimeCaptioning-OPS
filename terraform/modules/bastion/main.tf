@@ -11,14 +11,17 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids      = ["${var.ssh_bastion-sg}"]
   subnet_id                   = "${var.public_subnet_2a}"
   associate_public_ip_address = true
-  key_name                    = "${var.bastion-ssh-key}"
-
+  key_name                    = "${var.bastion-key-name}"
   tags {
     Name = "bastion"
   }
 }
 
 ### Variables
+
+variable "bastion-key-name"{
+description = "name of key"
+}
 
 variable "ami" {
   description = "ami ID that will be used for the bastion instance, Linux"
@@ -38,11 +41,8 @@ variable "public_subnet_2a" {
   description = " subnet in which bastion will be hosted"
 }
 
-variable "bastion-ssh-key" {
-  description = "path to bastion host key"
-}
 
 ### Outputs 
-output "bastion-id" {
-  value = "${aws_instance.bastion.id}"
+output "bastion-ip" {
+  value = "${aws_instance.bastion.public_ip}"
 }

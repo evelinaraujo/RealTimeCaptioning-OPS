@@ -29,6 +29,13 @@ resource "aws_security_group" "web-server-sg" {
     cidr_blocks = ["${var.cidr_block_open}"]
   }
 
+  ingress {
+    from_port   = 27017
+    to_port     = 27017
+    protocol    = "tcp"
+    cidr_blocks = ["${var.cidr_block_open}"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -92,6 +99,7 @@ variable "cidr_block_open" {
 output "bastion-sg-id" {
   value = "${aws_security_group.allow_ssh_bastion.id}"
 }
+
 output "web-sg-id" {
-value = "${aws_security_group.web-server-sg.id}"
+  value = "${aws_security_group.web-server-sg.id}"
 }

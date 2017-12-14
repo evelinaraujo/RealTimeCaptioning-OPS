@@ -9,26 +9,11 @@ resource "aws_instance" "ec2_instance" {
   vpc_security_group_ids      = ["${var.web_security_group_id}"]
   subnet_id                   = "${var.private-subnet}"
   associate_public_ip_address = false
-  key_name                    = "${var.ec2-ssh-key}"
+  key_name                    = "${var.ec2-key-name}"
 
   tags {
     Name = "${var.instance_name}"
     Env  = "${var.env}"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get install -y python",
-    ]
-
-    connection {
-      bastion_host        = "${var.bastion-host}"
-      bastion_user        = "${var.bastion-user}"
-      bastion_private_key = "${file("${var.bastion-ssh-key}")}"
-      type                = "ssh"
-      user                = "${var.ec2-user}"
-      private_key         = "${file("${var.ec2-ssh-key}")}"
-    }
   }
 }
 
@@ -43,30 +28,9 @@ variable "ami" {
 
   #default = "ami-316eb049"
 
-  #ami-0a00ce72
 }
-
-variable "ec2-user" {
-  description = "name of the ec2 user"
-  default     = "ubuntu"
-}
-
-variable "ec2-ssh-key" {
-  description = "path to the key used to access ec2 instance"
-}
-
-variable "bastion-host" {
-  description = "IP address for bastion host"
-}
-
-variable "bastion-user" {
-  description = "user for bastion instance"
-  default     = "ec2-user"
-}
-
-variable "bastion-ssh-key" {
-  description = "path to bastion host key"
-  default     = "~/.ssh/rtc.pem"
+variable "ec2-key-name" {
+  description = "name of key"
 }
 
 variable "env" {
