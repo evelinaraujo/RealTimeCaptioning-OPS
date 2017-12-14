@@ -78,33 +78,33 @@ variable "region" {
 }
 
 variable "internet_gateway" {
-  default = "igw-56616831"
+  description = "id for internet gateway"
 }
 
 variable "nat_gateway" {
-  default = "nat-014b77c5d847e48c8"
+  description = "ID for nat gateway"
 }
 
 variable "public_subnet_2a" {
-  default = "subnet-50d09c36"
+  description = "ID for public subnet 2a"
 }
 
 variable "public_subnet_2b" {
-  default = "subnet-d085e998"
+  description = "ID for public subnet 2b"
 }
 
 variable "public_subnet_2c" {
-  default = "subnet-5e4a4705"
+  description = "ID for public subnet 2c"
 }
 
 variable "private_subnet_2a" {
-  default = "subnet-b6d79bd0"
+  description = "ID for private subnet 2a"
 }
 
 variable "private_subnet_2b" {
-  default = "subnet-9684e8de"
+  description = "ID for private subnet 2b"
 }
 
 variable "private_subnet_2c" {
-  default = "subnet-4149441a"
+  description = "ID for private subnet 2c"
 }

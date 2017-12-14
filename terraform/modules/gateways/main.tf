@@ -25,22 +25,23 @@ resource "aws_internet_gateway" "gateway" {
 
 resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = "${aws_eip.rtc_eip.id}"
-  subnet_id     = "${var.public_subnet_us_west_2a}"
+  subnet_id     = "${var.public_subnet_2a}"
   depends_on    = ["aws_internet_gateway.gateway"]
 }
 
 ### Variables ###
 
 variable "vpc_id" {
-  default = "vpc-d4ae8db2"
+  description = "VPC ID"
+  default     = "vpc-d4ae8db2"
 }
 
-variable "public_subnet_us_west_2a" {
-  default = "subnet-50d09c36"
+variable "public_subnet_2a" {
+  description = "subnet for nat gateway"
 }
 
 variable "region" {
-  default = "us-west-2"
+  description = "Region for the gateway"
 }
 
 ### Outputs 
@@ -49,6 +50,10 @@ output "Elastic_ip" {
   value = "${aws_eip.rtc_eip.id}"
 }
 
-output "Internet Gateway" {
+output "Internet-Gateway-id" {
   value = "${aws_internet_gateway.gateway.id}"
+}
+
+output "Nat-Gateway-id"{
+value = "${aws_nat_gateway.nat_gateway.id}"
 }

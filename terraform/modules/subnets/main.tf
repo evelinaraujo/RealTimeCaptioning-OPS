@@ -86,26 +86,26 @@ variable "region" {
 }
 
 #### Outputs 
-output "public_subnet_us_west_2a" {
+output "public_subnet_2a-id" {
   value = "${aws_subnet.public_subnet_us_west_2a.id}"
 }
 
-output "public_subnet_us_west_2b" {
+output "public_subnet_2b-id" {
   value = "${aws_subnet.public_subnet_us_west_2b.id}"
 }
 
-output "public_subnet_us_west_2c" {
+output "public_subnet_2c-id" {
   value = "${aws_subnet.public_subnet_us_west_2c.id}"
 }
 
-output "private_subnet_us_west_2a" {
+output "private_subnet_2a-id" {
   value = "${aws_subnet.private_subnet_us_west_2a.id}"
 }
 
-output "private_subnet_us_west_2b" {
+output "private_subnet_2b-id" {
   value = "${aws_subnet.private_subnet_us_west_2b.id}"
 }
 
-output "private_subnet_us_west_2c" {
+output "private_subnet_2c-id" {
   value = "${aws_subnet.private_subnet_us_west_2c.id}"
 }
