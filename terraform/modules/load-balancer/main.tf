@@ -84,7 +84,7 @@ variable "unhealthy-threshold" {
 }
 
 variable "health-target" {
-  default = "TCP:80/"
+  default = "TCP:80"
 }
 
 variable "health-interval" {
@@ -104,6 +104,3 @@ variable "connection-draining-timeout" {
 }
 
 
-variable "s3-acl" {
-  description = "public or private accessibility"
-}

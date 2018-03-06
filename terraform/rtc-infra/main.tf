@@ -61,5 +61,4 @@ module "load-balancer" {
   lb_security_group = "${module.security-group-lb.lb-sg-id}"
   public_subnets    = ["${module.subnets.public_subnet_2a-id}", "${module.subnets.public_subnet_2b-id}", "${module.subnets.public_subnet_2c-id}"]
   instances         = ["${module.web-server-1.id}"]
-  s3-acl            = "private"
 }
