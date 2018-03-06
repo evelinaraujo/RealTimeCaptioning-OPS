@@ -62,9 +62,9 @@ cd /data
 sudo mkdir db
 sudo chown -R `id -un` /data/db
  
-echo "Clone the repo"
-cd ~
-git clone https://github.com/CSUN-Comp490/RealTimeCaptioning.git
+#echo "Clone the repo"
+#cd ~
+#git clone https://github.com/CSUN-Comp490/RealTimeCaptioning.git
 
 
 # echo "checkout dev branch"
