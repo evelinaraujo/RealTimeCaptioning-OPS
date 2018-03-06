@@ -5,40 +5,11 @@ provider "aws" {
   region = "${var.region}"
 }
 
-## MODULE - S3 BUCKET - LB LOGS ##
-resource "aws_s3_bucket" "s3-logs" {
-  bucket = "${var.elb-name}-logs"
-  acl    = "${var.s3-acl}"
-
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Id": "S3lbAccessLogs-${var.elb-name}",
-  "Statement": [
-    {
-      "Sid": "AllowLBLogsAccess",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "arn:aws:iam::797873946194:root"
-      },
-      "Action": "s3:PutObject",
-      "Resource": "arn:aws:s3:::${var.elb-name}-logs/AWSLogs/636693391160/*"
-    }
-  ]
-}
-POLICY
-
-  tags {
-    Name = "${var.elb-name}-logs"
-    env  = "${var.env}"
-  }
-}
 
 resource "aws_elb" "elb" {
   name            = "${var.elb-name}"
   security_groups = ["${var.lb_security_group}"]
   subnets         = ["${var.public_subnets}"]
-  depends_on      = ["aws_s3_bucket.s3-logs"]
 
   listener {
     instance_port     = 80
@@ -53,10 +24,6 @@ resource "aws_elb" "elb" {
     lb_port            = 443
     lb_protocol        = "https"
     ssl_certificate_id = "${var.rtc-certificate}"
-  }
-
-  access_logs {
-    bucket = "${aws_s3_bucket.s3-logs.id}"
   }
 
   health_check {
@@ -117,7 +84,7 @@ variable "unhealthy-threshold" {
 }
 
 variable "health-target" {
-  default = "HTTP:80/"
+  default = "TCP:80/"
 }
 
 variable "health-interval" {

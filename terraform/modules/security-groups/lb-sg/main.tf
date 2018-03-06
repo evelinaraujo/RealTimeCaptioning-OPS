@@ -18,6 +18,13 @@ resource "aws_security_group" "lb_security_group" {
   }
 
   ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["${var.cidr_block_open}"]
+  }
+
+  ingress {
     from_port   = 27017
     to_port     = 27017
     protocol    = "tcp"
@@ -41,10 +48,10 @@ variable "region" {
 }
 
 output "lb-sg-id" {
- value = "${aws_security_group.lb_security_group.id}"
+  value = "${aws_security_group.lb_security_group.id}"
 }
 
-variable "cidr_block_open"{
-    description = "open cidr notation"
+variable "cidr_block_open" {
+  description = "open cidr notation"
   default     = "0.0.0.0/0"
 }
