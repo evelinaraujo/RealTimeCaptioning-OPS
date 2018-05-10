@@ -5,7 +5,6 @@ provider "aws" {
   region = "${var.region}"
 }
 
-
 resource "aws_elb" "elb" {
   name            = "${var.elb-name}"
   security_groups = ["${var.lb_security_group}"]
@@ -102,5 +101,3 @@ variable "connection-draining" {
 variable "connection-draining-timeout" {
   default = "300"
 }
-
-

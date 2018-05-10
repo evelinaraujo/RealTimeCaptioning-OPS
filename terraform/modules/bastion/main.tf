@@ -12,6 +12,7 @@ resource "aws_instance" "bastion" {
   subnet_id                   = "${var.public_subnet_2a}"
   associate_public_ip_address = true
   key_name                    = "${var.bastion-key-name}"
+
   tags {
     Name = "bastion"
   }
@@ -19,8 +20,8 @@ resource "aws_instance" "bastion" {
 
 ### Variables
 
-variable "bastion-key-name"{
-description = "name of key"
+variable "bastion-key-name" {
+  description = "name of key"
 }
 
 variable "ami" {
@@ -40,7 +41,6 @@ variable "ssh_bastion-sg" {
 variable "public_subnet_2a" {
   description = " subnet in which bastion will be hosted"
 }
-
 
 ### Outputs 
 output "bastion-ip" {

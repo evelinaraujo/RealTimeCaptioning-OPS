@@ -27,8 +27,8 @@ variable "ami" {
   description = "ami for ec2 instance"
 
   #default = "ami-316eb049"
-
 }
+
 variable "ec2-key-name" {
   description = "name of key"
 }

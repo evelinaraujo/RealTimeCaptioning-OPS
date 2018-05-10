@@ -52,3 +52,11 @@ output "web-sg-id" {
 variable "vpc_id" {
   default = "vpc-d4ae8db2"
 }
+
+variable "cidr_block_open" {
+  default = "0.0.0.0/0"
+}
+
+variable "cidr_block_aws" {
+  default = "172.31.0.0/16"
+}

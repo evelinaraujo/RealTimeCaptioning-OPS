@@ -58,5 +58,3 @@ variable "cidr_block_open" {
 output "bastion-sg-id" {
   value = "${aws_security_group.allow_ssh_bastion.id}"
 }
-
-
