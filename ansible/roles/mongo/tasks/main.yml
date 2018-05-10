@@ -1,0 +1,6 @@
+---
+- name: Start mongod, fork it and git log path
+  become_method: sudo
+  shell: sudo mongod --nojournal --fork --logpath /var/log/mongodb/mongodb.log
+  args:
+    chdir: /data/db

@@ -14,7 +14,7 @@ resource "aws_elb" "elb" {
   listener {
     instance_port     = 80
     instance_protocol = "http"
-    lb_port           = 80
+    lb_port           = 8080
     lb_protocol       = "http"
   }
 
@@ -84,7 +84,7 @@ variable "unhealthy-threshold" {
 }
 
 variable "health-target" {
-  default = "TCP:80"
+  default = "HTTP:8080"
 }
 
 variable "health-interval" {

@@ -1,0 +1,5 @@
+--- 
+- name: Deploy Realtimecaptioning application
+  hosts: private-instance
+  roles:
+    - rtc
