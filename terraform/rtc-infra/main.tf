@@ -7,8 +7,8 @@ provider "aws" {
 terraform {
   backend "s3" {
     region         = "us-west-2"
-    bucket         = "terraform-state-rtc"          #
-    key            = "basic-infra/terraform.tfstate" #
+    bucket         = "terraform-state-rtc"          
+    key            = "basic-infra/terraform.tfstate" 
   }
 }
 

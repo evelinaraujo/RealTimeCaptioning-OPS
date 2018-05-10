@@ -1,6 +1,6 @@
 ## AWS Provider
 provider "aws" {
-  region = "${var.region}"
+  region = "us-west-2"
 }
 
 #### Security Group for Instances web-demo and web-demo-1
@@ -47,4 +47,8 @@ resource "aws_security_group" "web-server-sg" {
 #### OUTPUTS ####
 output "web-sg-id" {
   value = "${aws_security_group.web-server-sg.id}"
+}
+
+variable "vpc_id" {
+  default = "vpc-d4ae8db2"
 }
