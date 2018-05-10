@@ -4,6 +4,14 @@ provider "aws" {
   region = "us-west-2"
 }
 
+terraform {
+  backend "s3" {
+    region         = "us-west-2"
+    bucket         = "terraform-state-rtc"          #
+    key            = "basic-infra/terraform.tfstate" #
+  }
+}
+
 module "subnets" {
   source = "../modules/subnets"
 }
@@ -26,39 +34,14 @@ module "route-tables" {
   internet_gateway  = "${module.internet-gateways.Internet-Gateway-id}"
 }
 
-module "security-group-lb" {
-  source = "../modules/security-groups/lb-sg"
-  region = "us-west-2"
-}
-
-module "security-group-web" {
-  source = "../modules/security-groups/web-server-sg"
+module "security-group-bastion" {
+  source = "../modules/security-groups/bastion-sg"
   region = "us-west-2"
 }
 
 module "bastion" {
   source           = "../modules/bastion"
-  ssh_bastion-sg   = "${module.security-group-web.bastion-sg-id}"
+  ssh_bastion-sg   = "${module.security-group-bastion.bastion-sg-id}"
   public_subnet_2a = "${module.subnets.public_subnet_2a-id}"
   bastion-key-name = "bastion"
-}
-
-module "web-server-1" {
-  source                = "../modules/web-server"
-  ami                   = "ami-79873901"
-  private-subnet        = "${module.subnets.private_subnet_2b-id}"
-  web_security_group_id = "${module.security-group-web.web-sg-id}"
-  env                   = "demo"
-  instance_name         = "rtc-demo-1"
-  ec2-key-name          = "rtc"
-  region                = "us-west-2"
-}
-
-module "load-balancer" {
-  source            = "../modules/load-balancer"
-  env               = "demo"
-  elb-name          = "demo-load-balancer"
-  lb_security_group = "${module.security-group-lb.lb-sg-id}"
-  public_subnets    = ["${module.subnets.public_subnet_2a-id}", "${module.subnets.public_subnet_2b-id}", "${module.subnets.public_subnet_2c-id}"]
-  instances         = ["${module.web-server-1.id}"]
 }

@@ -84,7 +84,7 @@ variable "unhealthy-threshold" {
 }
 
 variable "health-target" {
-  default = "HTTP:8080"
+  default = "HTTP:8080/index.html"
 }
 
 variable "health-interval" {

@@ -1,0 +1,4 @@
+---
+- name: Start mongod, fork it and git log path
+  become: true
+  command: sudo mongod --fork --logpath /var/log/mongod/mongod.log
