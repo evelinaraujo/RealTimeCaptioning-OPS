@@ -1,0 +1,5 @@
+--- 
+- name: Start mongodb daemon
+  hosts: mongodb
+  roles:
+    - mongo

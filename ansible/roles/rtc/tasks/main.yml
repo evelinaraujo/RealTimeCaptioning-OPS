@@ -1,0 +1,37 @@
+--- 
+ - name: Checking out of to working prod branch on RealTimeCaptioning
+   command: git checkout {{ git_branch }}
+   args: 
+     chdir: ~/RealTimeCaptioning
+
+ - name: Git pull
+   become: true
+   command: git pull 
+   args:
+     chdir: /home/ubuntu/RealTimeCaptioning
+
+ - name: Run npm install in the front end
+   command: npm install
+   args:
+     chdir: /home/ubuntu/RealTimeCaptioning
+
+ - name: Run npm install in the backend 
+   command: npm install
+   args: 
+     chdir: /home/ubuntu/RealTimeCaptioning/backend
+
+ - name: Build the front end of the application using prod flag
+   command: ng build --var=prod
+   args:
+     chdir: /home/ubuntu/RealTimeCaptioning
+
+ - name: Install forever 
+   npm: name=forever global=yes state=present
+
+ - name: Start the backend of the application
+   command: forever start index.js
+   # when: forever_list.stdout.find('/home/ubuntu/RealTimeCaptioning') != -1
+   args:
+     chdir: ~/RealTimeCaptioning/backend
+
+
