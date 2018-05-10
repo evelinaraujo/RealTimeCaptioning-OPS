@@ -1,14 +1,15 @@
 --- 
- - name: Checking out of to working prod branch on RealTimeCaptioning
-   command: git checkout {{ git_branch }}
-   args: 
-     chdir: ~/RealTimeCaptioning
-
  - name: Git pull
    become: true
    command: git pull 
    args:
      chdir: /home/ubuntu/RealTimeCaptioning
+
+ 
+ - name: Checking out of to working prod branch on RealTimeCaptioning
+   command: git checkout {{ git_branch }}
+   args: 
+     chdir: ~/RealTimeCaptioning
 
  - name: Run npm install in the front end
    command: npm install
